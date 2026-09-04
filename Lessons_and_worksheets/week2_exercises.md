@@ -35,14 +35,7 @@ Calculate the cost of a journey using:
 - Cost per mile
 - Distance travelled
 
-## Option B: Time Converter
-
-Convert minutes into:
-
-- Hours
-- Remaining minutes
-
-## Option C: Average Mark Calculator
+## Option B: Average Mark Calculator
 
 Calculate the average of three assessment marks.
 
