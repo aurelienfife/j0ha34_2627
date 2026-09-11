@@ -1,7 +1,4 @@
-# Boolean logic and selection in Python
-
-**Handout — SCQF level 7**  
-**Progression:** Boolean values → comparisons → simple selection → alternative branches → compound conditions.
+# Week 3: Boolean Logic and Selection
 
 ## Learning intentions
 
