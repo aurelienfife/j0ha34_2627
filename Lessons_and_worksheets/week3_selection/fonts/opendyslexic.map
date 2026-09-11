@@ -1,0 +1,6 @@
+odregular HandoutAccessible-Regular "AutoEnc_yhegrh4a4hvbhn456bco6aigne ReEncodeFont" <[fonts/a_yhegrh.enc <fonts/OpenDyslexic-Regular.pfb
+odbold HandoutAccessible-Bold "AutoEnc_yhegrh4a4hvbhn456bco6aigne ReEncodeFont" <[fonts/a_yhegrh.enc <fonts/OpenDyslexic-Bold.pfb
+oditalic HandoutAccessible-Italic "AutoEnc_yhegrh4a4hvbhn456bco6aigne ReEncodeFont" <[fonts/a_yhegrh.enc <fonts/OpenDyslexic-Italic.pfb
+odbolditalic HandoutAccessible-BoldItalic "AutoEnc_yhegrh4a4hvbhn456bco6aigne ReEncodeFont" <[fonts/a_yhegrh.enc <fonts/OpenDyslexic-BoldItalic.pfb
+odmono--lcdfj HandoutAccessibleMono-RegularLCDFJ "" <fonts/OpenDyslexicMono-RegularLCDFJ.pfb
+odmono HandoutAccessibleMono-Regular "AutoEnc_icb34ohy3fqbpmm7gswipixfid ReEncodeFont" <[fonts/a_icb34o.enc <fonts/OpenDyslexicMono-Regular.pfb
