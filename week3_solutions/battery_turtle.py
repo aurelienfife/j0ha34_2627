@@ -1,10 +1,22 @@
 import turtle
 
-battery = 65
+battery = 15
 colour = "grey"
 message = "Battery level"
 
 # PLACEHOLDER CODE HERE: replace this comment with your selection code.
+if battery < 0 or battery > 100:
+    colour = "grey"
+    message = "Invalid battery level"
+elif battery < 20:
+    colour = "red"
+    message = "Charge now!"
+elif battery < 60:
+    colour = "orange"
+    message = "Battery okay"
+else:
+    colour = "green"
+    message = "Battery good"
 
 turtle.setup(500, 300)
 turtle.hideturtle()
