@@ -1,0 +1,446 @@
+% Standalone source. Compile with: xelatex <filename>.tex (twice for links).
+% Flowcharts are editable TikZ; no external image files are required.
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage{fontspec}
+\setmainfont{texgyreheros-regular.otf}
+\setmonofont{lmmono10-regular.otf}
+\usepackage[table]{xcolor}
+\definecolor{accent}{HTML}{244F64}
+\definecolor{panel}{HTML}{EDF3F6}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes.geometric}
+\usepackage{adjustbox,longtable,array,booktabs,enumitem,listings,fancyhdr,needspace}
+\usepackage[colorlinks=true,urlcolor=accent,linkcolor=accent]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep,leftmargin=*,topsep=4pt}
+\lstset{language=Python,basicstyle=\small\ttfamily,keywordstyle=\color{accent}\bfseries,commentstyle=\color{gray},stringstyle=\color{accent},backgroundcolor=\color{panel},frame=single,rulecolor=\color{panel},breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,tabsize=4,xleftmargin=6pt,xrightmargin=6pt,framexleftmargin=6pt,framexrightmargin=6pt,literate={£}{{\pounds}}1}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Python: Boolean logic and selection}
+\fancyhead[R]{\small SCQF level 7}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\begin{document}
+
+{\LARGE\bfseries\color{accent} Boolean logic and selection: practical exercises\par}\medskip
+\textbf{SCQF level 7 | Beginner Python}
+
+\textbf{Before you start: the optional extensions at the end are not suitable for beginners. They are there for people who already know Python and want an extra challenge. If you are new to Python, focus on Exercises 1–8.}
+
+Work through the exercises in order. Start by reproducing the examples, then adapt them and have a go at the challenges. Keep the handout nearby and use the hints if you get stuck.
+
+\Needspace{5\baselineskip}\section*{Preparation}
+This was meant to be for a 2-hour class, but we encourage you to study further and try extra challenges in your own time.
+
+Exercises 1–8 form the beginner route. The two extensions offer additional challenges for learners who already know Python.
+
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} Section & Exercises \\ \midrule\endhead
+\texttt{if}: one conditional action & 1–2 \\
+\texttt{if/else}: two alternatives & 3–4 \\
+\texttt{if/elif/else}: several alternatives & 5–7 \\
+A different application: turtle graphics & 8 \\
+\bottomrule\end{longtable}\endgroup
+You should already be able to create and run a Python file, assign variables and use \texttt{print()}. No loops or functions are required for the beginner route. Start a separate file for each exercise, with names such as \texttt{exercise\_01.py}.
+
+\Needspace{5\baselineskip}\subsection*{A reminder about input and types}
+The reproduce exercises start with values written directly in the code. Run those versions first so you can see what the conditions do. You will then add user input where the instructions ask for it.
+
+\textbf{Remember: \texttt{input()} always returns a string, even when you type a number.} Convert it before comparing it with a number:
+
+\begin{lstlisting}
+people = int(input("How many people are in the room? "))
+\end{lstlisting}
+Here, \texttt{input()} asks the question, \texttt{int()} converts the answer to a whole number, and \texttt{=} stores that number in \texttt{people}. Use \texttt{float()} instead when you want to accept decimal values, such as a price or temperature. Enter prices as numbers only: \texttt{39.50}, without a pound sign.
+
+For yes/no answers, compare the text to create a Boolean:
+
+\begin{lstlisting}
+answer = input("Is the account active? (yes/no): ").strip().lower()
+is_active = answer == "yes"
+\end{lstlisting}
+\texttt{.strip()} removes spaces at the beginning and end; \texttt{.lower()} converts the text to lowercase. The comparison produces \texttt{True} for \texttt{yes} and \texttt{False} otherwise. \textbf{Do not use \texttt{bool(input(...))} to interpret yes/no answers:} a non-empty string such as \texttt{"no"} becomes \texttt{True}.
+
+For Exercises 1–8, enter a valid number when asked for one, and answer yes/no questions with \texttt{yes} or \texttt{no}. Checking for mistyped answers is the task in Extension 2. A number can still be outside an exercise's allowed range: for example, \texttt{-1} converts successfully to an integer, but the ticket program must reject it as an age.
+
+For each exercise:
+
+\begin{enumerate}
+\item Predict what will happen before running the program.
+\item Run it with each set of test values. Edit the assignment for a fixed-value example, or type the values at the prompts once you have added input. For two-variable tables, use both values from the same row.
+\item Compare the actual result with the expected result.
+\item Save your code. Where asked, add a short explanation as a comment beginning with \texttt{\#}.
+\end{enumerate}
+Use the test tables to check your results. Where a table shows \texttt{True} or \texttt{False} for a yes/no prompt, enter \texttt{yes} or \texttt{no}, respectively. Use four spaces for each indentation level.
+
+\Needspace{5\baselineskip}\section*{A. \texttt{if}: run an action when a condition is true}
+\Needspace{5\baselineskip}\subsection*{1. Reproduce: a low-battery warning}
+\textbf{Focus: a simple comparison and indentation}
+
+Type and run this program:
+
+\begin{lstlisting}
+battery = 15
+
+if battery < 20:
+    print("Low battery")
+
+print("Battery check complete")
+\end{lstlisting}
+Then:
+
+\begin{enumerate}
+\item Run it with \texttt{battery} set to \texttt{15}, \texttt{20} and \texttt{80}.
+\item Identify which message appears every time.
+\item Change the condition so that exactly 20 also produces a warning.
+\item Replace \texttt{battery = 15} with a prompt asking for the battery percentage. Convert the answer with \texttt{int()} and repeat the three tests.
+\item Add a comment explaining why the last message does not depend on the condition.
+\end{enumerate}
+\textbf{Check your changed program:} 15 and 20 should show the warning; 80 should not. Every run should finish with \texttt{Battery check complete}.
+
+\Needspace{5\baselineskip}\subsection*{2. Code challenge: a full room}
+\textbf{Focus: write your own \texttt{if}}
+
+A room has a capacity of 24 people. Write a program that:
+
+\begin{itemize}
+\item Asks the user how many people are currently in the room. Convert the answer to an integer and store it in \texttt{people}, using the input example above.
+\item Prints \texttt{Room at or above capacity} if there are 24 or more people.
+\item Always prints \texttt{Room check complete} afterwards.
+\end{itemize}
+Use one \texttt{if} statement. No alternative message is needed when there is space.
+
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} \texttt{people} & Expected output, in order \\ \midrule\endhead
+\texttt{23} & \texttt{Room check complete} \\
+\texttt{24} & \texttt{Room at or above capacity}, then \texttt{Room check complete} \\
+\texttt{25} & \texttt{Room at or above capacity}, then \texttt{Room check complete} \\
+\bottomrule\end{longtable}\endgroup
+Add a comment explaining why the test with 24 is important.
+
+\textbf{Hint:} choose a comparison that includes 24. Keep the final \texttt{print()} at the left margin so that it runs regardless of the comparison's result. For a reminder of assignment syntax, see \href{https://www.w3schools.com/python/python_variables.asp}{W3Schools: Python variables}.
+
+\Needspace{5\baselineskip}\section*{B. \texttt{if/else}: choose one of two alternatives}
+\Needspace{5\baselineskip}\subsection*{3. Reproduce, then adapt: a delivery charge}
+\textbf{Focus: true and false branches}
+
+Type and run this program:
+
+\begin{lstlisting}
+order_total = 25
+
+if order_total >= 30:
+    print("Free delivery")
+else:
+    print("Delivery costs £3")
+\end{lstlisting}
+\begin{enumerate}
+\item Test totals of \texttt{29}, \texttt{30} and \texttt{31}. Exactly one message should appear each time.
+\item Change the free-delivery threshold to £40 and the delivery charge to £4.
+\item Replace \texttt{order\_total = 25} with a prompt for the order total. Convert the answer with \texttt{float()} so the program accepts pounds and pence.
+\item Test your updated version with totals of \texttt{39}, \texttt{39.99}, \texttt{40} and \texttt{41}.
+\end{enumerate}
+\textbf{Check:} 39 and 39.99 should produce \texttt{Delivery costs £4}; 40 and 41 should produce \texttt{Free delivery}.
+
+Add a comment explaining why \texttt{else} does not need its own comparison.
+
+\Needspace{5\baselineskip}\subsection*{4. Cybersecurity challenge: an account access check}
+\textbf{Focus: \texttt{and} and \texttt{not}}
+
+Imagine you are checking whether an account should be allowed into a company portal. For this exercise, the account must be active and must not be suspended. First, build and test the decision using these values:
+
+\begin{lstlisting}
+is_active = True
+is_suspended = False
+\end{lstlisting}
+Write an \texttt{if/else} statement that prints either \texttt{Access allowed} or \texttt{Access refused}. Use both \texttt{and} and \texttt{not} in the condition.
+
+Once it works, replace the fixed values with two yes/no prompts: one asking whether the account is active, and one asking whether it is suspended. Convert each answer to a Boolean using the pattern at the top of the worksheet. Repeat all four tests. You are entering simulated account information to test the rule.
+
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} \texttt{is\_active} & \texttt{is\_suspended} & Expected output \\ \midrule\endhead
+\texttt{True} & \texttt{False} & \texttt{Access allowed} \\
+\texttt{True} & \texttt{True} & \texttt{Access refused} \\
+\texttt{False} & \texttt{False} & \texttt{Access refused} \\
+\texttt{False} & \texttt{True} & \texttt{Access refused} \\
+\bottomrule\end{longtable}\endgroup
+\textbf{Hints:}
+
+\begin{itemize}
+\item Read \texttt{is\_active} as “the account is active”. A Boolean variable can be used directly in a condition.
+\item Use \texttt{not} to express “the account is not suspended”.
+\item Both requirements must be met. Use a single combined condition, followed by an \texttt{else} for refused access.
+\item Review the logical operators in \href{https://www.w3schools.com/python/python_operators.asp}{W3Schools: Python operators}.
+\end{itemize}
+After testing, add a comment explaining why an active but suspended account must still be refused access.
+
+\Needspace{5\baselineskip}\section*{C. \texttt{if/elif/else}: choose between several alternatives}
+\Needspace{5\baselineskip}\subsection*{5. Reproduce, then adapt: a temperature message}
+\textbf{Focus: testing conditions in order}
+
+Type and run this program:
+
+\begin{lstlisting}
+temperature = 12
+
+if temperature < 10:
+    print("Cold")
+elif temperature < 20:
+    print("Mild")
+else:
+    print("Warm")
+\end{lstlisting}
+\begin{enumerate}
+\item Test temperatures of \texttt{9}, \texttt{10}, \texttt{19} and \texttt{20}.
+\item Add a comment explaining why 9 does not also produce \texttt{Mild}.
+\item Adapt the program to give the four outcomes below. Use one \texttt{if/elif/else} chain.
+\item Replace \texttt{temperature = 12} with a prompt for the temperature in degrees Celsius. Use \texttt{float()} so you can also enter values such as \texttt{9.5}.
+\end{enumerate}
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} Temperature & Required message \\ \midrule\endhead
+Below 0 & \texttt{Freezing} \\
+0 up to, but not including, 10 & \texttt{Cold} \\
+10 up to, but not including, 20 & \texttt{Mild} \\
+20 or above & \texttt{Warm} \\
+\bottomrule\end{longtable}\endgroup
+\textbf{Check:} test \texttt{-1}, \texttt{0}, \texttt{9}, \texttt{10}, \texttt{19} and \texttt{20}. Each run should print exactly one message.
+
+\textbf{Hint:} put the lowest temperature boundary first, then work upwards. Each later condition is reached only when the earlier conditions were false. Revisit \href{https://www.w3schools.com/python/python_conditions.asp}{W3Schools: Python conditions} for the basic selection syntax.
+
+\Needspace{5\baselineskip}\subsection*{6. Find the bug: an unreachable result}
+\textbf{Focus: a logic error rather than a syntax error}
+
+This program runs, but does not follow the intended rule. The rule is:
+
+\begin{itemize}
+\item 70 or above: \texttt{High score}.
+\item 50 up to, but not including, 70: \texttt{Pass}.
+\item Below 50: \texttt{Not yet passed}.
+\end{itemize}
+These are example thresholds for this activity, not an assessment grading policy.
+
+\textbf{Faulty code — reproduce it before making changes:}
+
+\begin{lstlisting}
+score = 75
+
+if score >= 50:
+    print("Pass")
+elif score >= 70:
+    print("High score")
+else:
+    print("Not yet passed")
+\end{lstlisting}
+\begin{enumerate}
+\item Predict the output for 75, then run the program.
+\item Explain why the high-score branch cannot be reached, even with a score of 100.
+\item Fix the program while keeping one \texttt{if/elif/else} chain.
+\item Test the repaired version against the table by changing \texttt{score = 75} for each test. Keep the fixed assignment in this exercise so you can focus on the bug.
+\end{enumerate}
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} \texttt{score} & Expected output \\ \midrule\endhead
+\texttt{49} & \texttt{Not yet passed} \\
+\texttt{50} & \texttt{Pass} \\
+\texttt{69} & \texttt{Pass} \\
+\texttt{70} & \texttt{High score} \\
+\texttt{75} & \texttt{High score} \\
+\bottomrule\end{longtable}\endgroup
+\textbf{Hint:} trace the comparisons from top to bottom. Which condition accepts the widest range of scores? For 75, write down the result of the first comparison and identify what Python does next. Use \href{https://www.w3schools.com/python/python_conditions.asp}{W3Schools: Python conditions} if you need to review how a decision controls the following block.
+
+\Needspace{5\baselineskip}\subsection*{7. Code challenge: choose a ticket price}
+\textbf{Focus: combine comparisons and logical operators}
+
+Write a program that uses an age and a membership status to choose exactly one ticket price. Apply the rules in this order:
+
+\begin{enumerate}
+\item An age below 0 or above 120 produces \texttt{Invalid age}.
+\item Otherwise, anyone under 5 enters free, regardless of membership.
+\item Otherwise, anyone under 18 \textbf{or} anyone who is a member pays £5.
+\item Everyone else pays £10.
+\end{enumerate}
+Start by asking the user two questions:
+
+\begin{itemize}
+\item Their age in whole years: convert the answer with \texttt{int()} and store it in \texttt{age}.
+\item Whether they are a member: ask for \texttt{yes} or \texttt{no}, then turn the answer into a Boolean called \texttt{is\_member} using the pattern at the top of the worksheet.
+\end{itemize}
+Write your selection code after these prompts. Enter 16 and \texttt{no} for your first run.
+
+Use one \texttt{if/elif/else} chain. Use \texttt{or} where either condition is sufficient. Print one of \texttt{Invalid age}, \texttt{Free entry}, \texttt{Ticket: £5} or \texttt{Ticket: £10}.
+
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} \texttt{age} & \texttt{is\_member} & Expected output \\ \midrule\endhead
+\texttt{-1} & \texttt{True} & \texttt{Invalid age} \\
+\texttt{4} & \texttt{False} & \texttt{Free entry} \\
+\texttt{5} & \texttt{False} & \texttt{Ticket: £5} \\
+\texttt{17} & \texttt{False} & \texttt{Ticket: £5} \\
+\texttt{18} & \texttt{False} & \texttt{Ticket: £10} \\
+\texttt{18} & \texttt{True} & \texttt{Ticket: £5} \\
+\texttt{120} & \texttt{False} & \texttt{Ticket: £10} \\
+\texttt{121} & \texttt{True} & \texttt{Invalid age} \\
+\bottomrule\end{longtable}\endgroup
+Before coding, write the decisions as a short list or sketch a flowchart. After testing, add a comment explaining why the invalid-age check must come before the price checks.
+
+\textbf{Hints:}
+
+\begin{itemize}
+\item Check the types first: \texttt{age} should be an integer and \texttt{is\_member} should be a Boolean. The string \texttt{"False"} is not the same as the Boolean \texttt{False}.
+\item An age can be invalid in two different ways. Write a complete comparison for each and join them with \texttt{or}.
+\item Use one \texttt{if}, two \texttt{elif} branches and a final \texttt{else}, following the rule order above.
+\item Once the free-entry branch has been ruled out, combine the under-18 comparison with the Boolean variable \texttt{is\_member}.
+\item Add and test one branch at a time. Check the comparison and logical operator tables in \href{https://www.w3schools.com/python/python_operators.asp}{W3Schools: Python operators}.
+\end{itemize}
+\Needspace{5\baselineskip}\section*{D. A different application: turtle graphics}
+\Needspace{5\baselineskip}\subsection*{8. Visual challenge: a battery indicator}
+\textbf{Focus: use a condition to change graphical output}
+
+Turtle lets a Python program draw in a window. In this exercise, your selection code will choose a colour and label, then the supplied drawing commands will display them. You do not need to learn loops or write drawing functions.
+
+\textbf{Before starting:} use a Python environment that supports turtle graphics, such as a suitably configured desktop installation. Turtle requires Tk support and a graphical display; some browser-based Python editors cannot open its window. Your lecturer can confirm the appropriate environment. Save your file as \texttt{battery\_indicator.py}, not \texttt{turtle.py}.
+
+\Needspace{5\baselineskip}\subsection*{Step 1: reproduce the starter}
+\begin{lstlisting}
+import turtle
+
+battery = 65
+colour = "grey"
+message = "Battery level"
+
+# PLACEHOLDER CODE HERE: replace this comment with your selection code.
+
+turtle.setup(500, 300)
+turtle.hideturtle()
+turtle.penup()
+turtle.goto(0, 30)
+turtle.dot(100, colour)
+turtle.goto(0, -60)
+turtle.write(message, align="center", font=("Arial", 16, "normal"))
+turtle.done()
+\end{lstlisting}
+Run it once. You should see a grey circle and the words \texttt{Battery level}. Close the drawing window before running the file again.
+
+Now replace \texttt{battery = 65} with an \texttt{input()} prompt converted using \texttt{int()}. Enter the percentage in your editor’s console or terminal when prompted; the drawing window opens afterwards.
+
+\Needspace{5\baselineskip}\subsection*{What the unfamiliar code does}
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.50000\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} Code & Purpose \\ \midrule\endhead
+\texttt{import turtle} & Makes the drawing commands available. \\
+\texttt{turtle.setup(500, 300)} & Sets the window size in pixels. \\
+\texttt{turtle.hideturtle()} & Hides the drawing cursor. \\
+\texttt{turtle.penup()} & Stops movement from leaving connecting lines. \\
+\texttt{turtle.goto(x, y)} & Moves to a position; \texttt{(0, 0)} is the centre and positive \texttt{y} is upwards. \\
+\texttt{turtle.dot(100, colour)} & Draws a filled circle with a diameter of 100 pixels, using the chosen colour. \\
+\texttt{turtle.write(...)} & Displays the message with the supplied alignment and font settings. \\
+\texttt{turtle.done()} & Keeps the window open until you close it. \\
+\bottomrule\end{longtable}\endgroup
+\Needspace{5\baselineskip}\subsection*{Step 2: add the decision}
+The line beginning \texttt{\# PLACEHOLDER CODE HERE} is a \textbf{comment marking where you should write your code}. Python ignores it; it does not make a decision. Delete that comment line and write your \texttt{if/elif/else} chain in its place, between the initial variable assignments and \texttt{turtle.setup(500, 300)}.
+
+In each branch, assign a value to \textbf{both} \texttt{colour} and \texttt{message}. Keep the supplied drawing commands after the complete chain, at the left margin. This draws the circle once, using the values chosen by your branch.
+
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} Battery value & \texttt{colour} & \texttt{message} \\ \midrule\endhead
+Below 0 or above 100 & \texttt{"grey"} & \texttt{"Invalid level"} \\
+Otherwise, below 20 & \texttt{"red"} & \texttt{"Charge now"} \\
+Otherwise, below 60 & \texttt{"orange"} & \texttt{"Battery okay"} \\
+Otherwise & \texttt{"green"} & \texttt{"Battery good"} \\
+\bottomrule\end{longtable}\endgroup
+\textbf{Hints:}
+
+\begin{itemize}
+\item Check for an invalid battery value first, using \texttt{or} to combine the two ways it can be outside the range.
+\item Then test the remaining boundaries from lowest to highest, as in Exercise 5.
+\item Each branch needs two indented assignment statements. For example, the required values \texttt{"red"} and \texttt{"Charge now"} must be assigned to \texttt{colour} and \texttt{message}, respectively.
+\item Keep colour names and messages in quotation marks because they are strings. For assignment help, see \href{https://www.w3schools.com/python/python_variables.asp}{W3Schools: Python variables}.
+\item If the circle stays grey with the original label, check that you have replaced the placeholder comment and saved the file. If no window opens, try the text-only fallback below.
+\end{itemize}
+\Needspace{5\baselineskip}\subsection*{Step 3: check the picture}
+Run the program again for each value: \texttt{-1}, \texttt{0}, \texttt{19}, \texttt{20}, \texttt{59}, \texttt{60}, \texttt{100} and \texttt{101}. Enter the number at the prompt and close the drawing window between runs. Check the label as well as the colour: the meaning should still be clear to someone who cannot distinguish the colours.
+
+\textbf{Finished when:} every test displays the expected colour and label, and each run draws just one circle.
+
+\textbf{If graphics are unavailable:} complete the same selection code in a normal Python file and use \texttt{print(colour, message)} after it. This lets you test the decision before trying the drawing version in a suitable environment.
+
+\Needspace{5\baselineskip}\section*{Optional extensions: for learners who already know Python}
+These extensions are \textbf{not beginner-level tasks}. Have a go if you already know Python and are ready to work with functions, automated checks and exception handling. Otherwise, keep practising Exercises 1–8.
+
+\Needspace{5\baselineskip}\subsection*{Extension 1. Turn the ticket rules into a tested function}
+\textbf{Builds on Exercise 7}
+
+Write a function called \texttt{ticket\_price(age, is\_member)}. Assume \texttt{age} is an integer and \texttt{is\_member} is a Boolean.
+
+\begin{itemize}
+\item Return \texttt{None} for an age outside 0–120.
+\item Return \texttt{0}, \texttt{5} or \texttt{10} for the valid ticket prices.
+\item Do not use \texttt{input()} in this extension. Call the function with literal test values, such as \texttt{ticket\_price(18, True)}. Use \texttt{return} inside the function instead of printing the result.
+\item Write \texttt{assert} checks for all eight cases in Exercise 7, plus a member aged 4 and a non-member aged 0. \texttt{assert} checks that an expression is true and reports a failure otherwise.
+\item Add a short explanation of how the boundary tests could catch an incorrect \texttt{<} or \texttt{<=} operator.
+\end{itemize}
+\textbf{Hints:}
+
+\begin{itemize}
+\item Start with \texttt{def ticket\_price(age, is\_member):} and indent the selection code inside the function.
+\item Reuse the rule order from Exercise 7, replacing each output message with the required return value.
+\item A test can look like \texttt{assert ticket\_price(18, True) == 5}. For an invalid age, check the result with \texttt{is None}.
+\item Review \href{https://www.w3schools.com/python/python_functions.asp}{W3Schools: Python functions}, especially parameters and return values.
+\end{itemize}
+\textbf{Finished when:} the function returns the correct values and every assertion passes.
+
+\Needspace{5\baselineskip}\subsection*{Extension 2. Make the ticket program cope with invalid input}
+\textbf{Builds on Exercise 7 or Extension 1}
+
+Exercise 7 assumes the user enters a whole number and a yes/no answer. Now make it cope when they do not. Keep the prompts, but check the answers before applying the ticket rules. If you completed Extension 1, call your pricing function only after the inputs have passed those checks.
+
+Requirements:
+
+\begin{itemize}
+\item Accept membership responses \texttt{yes} or \texttt{no}, ignoring surrounding spaces and capitalisation. Use \texttt{.strip().lower()} to normalise the response.
+\item Use \texttt{try/except ValueError} to handle age entries that cannot be converted to an integer.
+\item Give a clear error message for non-integer ages, ages outside 0–120, or unrecognised membership responses.
+\item Print a price only when both inputs are valid.
+\item Handle one customer per run; a loop is not required.
+\end{itemize}
+Test at least these entries:
+
+\begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}}
+\toprule
+\rowcolor{panel} Age text & Membership text & Expected behaviour \\ \midrule\endhead
+\texttt{18} & \texttt{ YES } & £5 ticket \\
+\texttt{18} & \texttt{no} & £10 ticket \\
+\texttt{four} & \texttt{yes} & Explain that age must be a whole number; no price \\
+\texttt{18.5} & \texttt{no} & Explain that age must be a whole number; no price \\
+\texttt{121} & \texttt{yes} & Explain the valid age range; no price \\
+\texttt{18} & \texttt{maybe} & Explain that the answer must be \texttt{yes} or \texttt{no}; no price \\
+\bottomrule\end{longtable}\endgroup
+\textbf{Hints:}
+
+\begin{itemize}
+\item Separate reading the input, checking it and selecting the price. Do not calculate a price until both inputs have passed their checks.
+\item Put the age conversion inside \texttt{try}; use \texttt{except ValueError} for text that \texttt{int()} cannot convert. Keep code that depends on a successful conversion out of the error branch.
+\item After normalising the membership text, check that it is \texttt{"yes"} or \texttt{"no"}. Only then create a Boolean such as \texttt{is\_member = membership\_text == "yes"}.
+\item Review \href{https://www.w3schools.com/python/python_try_except.asp}{W3Schools: Python try/except} for handling conversion errors.
+\end{itemize}
+\textbf{Finished when:} invalid entries produce helpful messages rather than a traceback or an incorrect price.
+
+\Needspace{5\baselineskip}\section*{Reference links}
+\begin{itemize}
+\item \href{https://docs.python.org/3/tutorial/controlflow.html\#if-statements}{Python documentation: \texttt{if} statements}
+\item \href{https://docs.python.org/3/library/stdtypes.html\#boolean-operations-and-or-not}{Python documentation: Boolean operations}
+\item \href{https://docs.python.org/3/library/turtle.html}{Python documentation: turtle graphics}
+\item \href{https://docs.python.org/3/library/functions.html\#input}{Python documentation: \texttt{input()}}
+\item \href{https://docs.python.org/3/tutorial/errors.html\#handling-exceptions}{Python documentation: handling exceptions}
+\item \href{https://www.w3schools.com/python/python_conditions.asp}{W3Schools: Python conditions}
+\item \href{https://www.w3schools.com/python/python_operators.asp}{W3Schools: Python operators}
+\end{itemize}
+\end{document}
