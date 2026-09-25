@@ -1,0 +1,16 @@
+Family:              OpenDyslexicMono
+Subfamily:           Regular
+Full name:           OpenDyslexicMono
+PostScript name:     OpenDyslexicMono-Regular
+Version:             Version 1.001;PS 001.001;hotconv 1.0.70;makeotf.lib2.5.58329
+Unique ID:           1.001;UKWN;OpenDyslexicMono-Regular
+Designer:            Abelardo Gonzalez
+Designer URL:        http://abbiecod.es
+Copyright:           Original Fonts are © Bitstream. OpenDyslexic changes and additional glyphs by Abelardo Gonzalez are licensed under a Creative Commons Attribution 3.0 Unported License.
+Based on a work at http://dyslexicfonts.com. ♡2012 by Abelardo Gonzalez. Copying is an act of love. Please copy.
+Bitstream license available here: http://opendyslexic.org/legal/
+License Description: Fonts are © Bitstream. OpenDyslexic changes and additional glyphs by Abelardo Gonzalez are licensed under a Creative Commons Attribution 3.0 Unported License.
+Based on a work at http://dyslexicfonts.com. ♡2012 by Abelardo Gonzalez. Copying is an act of love. Please copy.
+Bitstream license available here: http://opendyslexic.org/legal/
+Vendor ID:           UKWN
+Permissions:         Installable

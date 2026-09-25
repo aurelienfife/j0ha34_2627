@@ -1,10 +1,41 @@
-% Standalone source. Compile with: xelatex <filename>.tex (twice for links).
-% Flowcharts are editable TikZ; no external image files are required.
-\documentclass[11pt,a4paper]{article}
+% Standalone source. Compile with: pdflatex <filename>.tex (twice for links).
+% Keep the supplied fonts/ folder beside this source. Flowcharts are editable TikZ.
+\documentclass[12pt,a4paper]{article}
 \usepackage[margin=22mm]{geometry}
-\usepackage{fontspec}
-\setmainfont{texgyreheros-regular.otf}
-\setmonofont{lmmono10-regular.otf}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+% Local pdfTeX support for OpenDyslexic. Keep the fonts folder beside this file.
+\makeatletter
+\def\input@path{{fonts/}}
+\makeatother
+\pdfmapfile{+fonts/opendyslexic.map}
+\DeclareFontFamily{T1}{od}{}
+\DeclareFontShape{T1}{od}{m}{n}{<-> fonts/odregular}{}
+\DeclareFontShape{T1}{od}{b}{n}{<-> fonts/odbold}{}
+\DeclareFontShape{T1}{od}{bx}{n}{<-> fonts/odbold}{}
+\DeclareFontShape{T1}{od}{m}{it}{<-> fonts/oditalic}{}
+\DeclareFontShape{T1}{od}{b}{it}{<-> fonts/odbolditalic}{}
+\DeclareFontShape{T1}{od}{bx}{it}{<-> fonts/odbolditalic}{}
+\DeclareFontShape{T1}{od}{m}{sl}{<-> fonts/oditalic}{}
+\DeclareFontFamily{T1}{odmono}{}
+\DeclareFontShape{T1}{odmono}{m}{n}{<-> fonts/odmono}{}
+\DeclareFontShape{T1}{odmono}{b}{n}{<-> fonts/odmono}{}
+\DeclareFontShape{T1}{odmono}{bx}{n}{<-> fonts/odmono}{}
+\DeclareFontShape{T1}{odmono}{m}{it}{<-> fonts/odmono}{}
+\renewcommand{\rmdefault}{od}
+\renewcommand{\sfdefault}{od}
+\renewcommand{\ttdefault}{odmono}
+\renewcommand{\familydefault}{od}
+\usepackage{ragged2e,setspace}
+\setstretch{1.3}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\widowpenalty=10000
+\clubpenalty=10000
+\AtBeginDocument{\RaggedRight\sloppy}
+\setlength{\emergencystretch}{\linewidth}
+\DeclareTextFontCommand{\texttt}{\ttfamily\small}
 \usepackage[table]{xcolor}
 \definecolor{accent}{HTML}{244F64}
 \definecolor{panel}{HTML}{EDF3F6}
@@ -13,10 +44,11 @@
 \usepackage{adjustbox,longtable,array,booktabs,enumitem,listings,fancyhdr,needspace}
 \usepackage[colorlinks=true,urlcolor=accent,linkcolor=accent]{hyperref}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{7pt}
-\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{9pt}
+\setlength{\emergencystretch}{\linewidth}
 \setlist{nosep,leftmargin=*,topsep=4pt}
-\lstset{language=Python,basicstyle=\small\ttfamily,keywordstyle=\color{accent}\bfseries,commentstyle=\color{gray},stringstyle=\color{accent},backgroundcolor=\color{panel},frame=single,rulecolor=\color{panel},breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,tabsize=4,xleftmargin=6pt,xrightmargin=6pt,framexleftmargin=6pt,framexrightmargin=6pt,literate={£}{{\pounds}}1}
+\lstset{language=Python,basicstyle=\small\ttfamily,keywordstyle=\color{accent},commentstyle=\color{gray},stringstyle=\color{accent},backgroundcolor=\color{panel},frame=single,rulecolor=\color{panel},breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,
+tabsize=4,xleftmargin=6pt,xrightmargin=6pt,framexleftmargin=6pt,framexrightmargin=6pt,literate={£}{{\pounds}}1}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small Python: Boolean logic and selection}
@@ -52,17 +84,25 @@ The reproduce exercises start with values written directly in the code. Run thos
 
 \textbf{Remember: \texttt{input()} always returns a string, even when you type a number.} Convert it before comparing it with a number:
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 people = int(input("How many people are in the room? "))
 \end{lstlisting}
+\end{minipage}
+\par
 Here, \texttt{input()} asks the question, \texttt{int()} converts the answer to a whole number, and \texttt{=} stores that number in \texttt{people}. Use \texttt{float()} instead when you want to accept decimal values, such as a price or temperature. Enter prices as numbers only: \texttt{39.50}, without a pound sign.
 
 For yes/no answers, compare the text to create a Boolean:
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 answer = input("Is the account active? (yes/no): ").strip().lower()
 is_active = answer == "yes"
 \end{lstlisting}
+\end{minipage}
+\par
 \texttt{.strip()} removes spaces at the beginning and end; \texttt{.lower()} converts the text to lowercase. The comparison produces \texttt{True} for \texttt{yes} and \texttt{False} otherwise. \textbf{Do not use \texttt{bool(input(...))} to interpret yes/no answers:} a non-empty string such as \texttt{"no"} becomes \texttt{True}.
 
 For Exercises 1–8, enter a valid number when asked for one, and answer yes/no questions with \texttt{yes} or \texttt{no}. Checking for mistyped answers is the task in Extension 2. A number can still be outside an exercise's allowed range: for example, \texttt{-1} converts successfully to an integer, but the ticket program must reject it as an age.
@@ -83,6 +123,8 @@ Use the test tables to check your results. Where a table shows \texttt{True} or 
 
 Type and run this program:
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 battery = 15
 
@@ -91,6 +133,8 @@ if battery < 20:
 
 print("Battery check complete")
 \end{lstlisting}
+\end{minipage}
+\par
 Then:
 
 \begin{enumerate}
@@ -131,6 +175,8 @@ Add a comment explaining why the test with 24 is important.
 
 Type and run this program:
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 order_total = 25
 
@@ -139,6 +185,8 @@ if order_total >= 30:
 else:
     print("Delivery costs £3")
 \end{lstlisting}
+\end{minipage}
+\par
 \begin{enumerate}
 \item Test totals of \texttt{29}, \texttt{30} and \texttt{31}. Exactly one message should appear each time.
 \item Change the free-delivery threshold to £40 and the delivery charge to £4.
@@ -154,10 +202,14 @@ Add a comment explaining why \texttt{else} does not need its own comparison.
 
 Imagine you are checking whether an account should be allowed into a company portal. For this exercise, the account must be active and must not be suspended. First, build and test the decision using these values:
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 is_active = True
 is_suspended = False
 \end{lstlisting}
+\end{minipage}
+\par
 Write an \texttt{if/else} statement that prints either \texttt{Access allowed} or \texttt{Access refused}. Use both \texttt{and} and \texttt{not} in the condition.
 
 Once it works, replace the fixed values with two yes/no prompts: one asking whether the account is active, and one asking whether it is suspended. Convert each answer to a Boolean using the pattern at the top of the worksheet. Repeat all four tests. You are entering simulated account information to test the rule.
@@ -186,6 +238,8 @@ After testing, add a comment explaining why an active but suspended account must
 
 Type and run this program:
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 temperature = 12
 
@@ -196,6 +250,8 @@ elif temperature < 20:
 else:
     print("Warm")
 \end{lstlisting}
+\end{minipage}
+\par
 \begin{enumerate}
 \item Test temperatures of \texttt{9}, \texttt{10}, \texttt{19} and \texttt{20}.
 \item Add a comment explaining why 9 does not also produce \texttt{Mild}.
@@ -228,6 +284,8 @@ These are example thresholds for this activity, not an assessment grading policy
 
 \textbf{Faulty code — reproduce it before making changes:}
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 score = 75
 
@@ -238,6 +296,8 @@ elif score >= 70:
 else:
     print("Not yet passed")
 \end{lstlisting}
+\end{minipage}
+\par
 \begin{enumerate}
 \item Predict the output for 75, then run the program.
 \item Explain why the high-score branch cannot be reached, even with a score of 100.
@@ -308,6 +368,8 @@ Turtle lets a Python program draw in a window. In this exercise, your selection 
 \textbf{Before starting:} use a Python environment that supports turtle graphics, such as a suitably configured desktop installation. Turtle requires Tk support and a graphical display; some browser-based Python editors cannot open its window. Your lecturer can confirm the appropriate environment. Save your file as \texttt{battery\_indicator.py}, not \texttt{turtle.py}.
 
 \Needspace{5\baselineskip}\subsection*{Step 1: reproduce the starter}
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 import turtle
 
@@ -326,6 +388,8 @@ turtle.goto(0, -60)
 turtle.write(message, align="center", font=("Arial", 16, "normal"))
 turtle.done()
 \end{lstlisting}
+\end{minipage}
+\par
 Run it once. You should see a grey circle and the words \texttt{Battery level}. Close the drawing window before running the file again.
 
 Now replace \texttt{battery = 65} with an \texttt{input()} prompt converted using \texttt{int()}. Enter the percentage in your editor’s console or terminal when prompted; the drawing window opens afterwards.

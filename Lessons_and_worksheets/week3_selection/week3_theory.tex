@@ -1,10 +1,41 @@
-% Standalone source. Compile with: xelatex <filename>.tex (twice for links).
-% Flowcharts are editable TikZ; no external image files are required.
-\documentclass[11pt,a4paper]{article}
+% Standalone source. Compile with: pdflatex <filename>.tex (twice for links).
+% Keep the supplied fonts/ folder beside this source. Flowcharts are editable TikZ.
+\documentclass[12pt,a4paper]{article}
 \usepackage[margin=22mm]{geometry}
-\usepackage{fontspec}
-\setmainfont{texgyreheros-regular.otf}
-\setmonofont{lmmono10-regular.otf}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+% Local pdfTeX support for OpenDyslexic. Keep the fonts folder beside this file.
+\makeatletter
+\def\input@path{{fonts/}}
+\makeatother
+\pdfmapfile{+fonts/opendyslexic.map}
+\DeclareFontFamily{T1}{od}{}
+\DeclareFontShape{T1}{od}{m}{n}{<-> fonts/odregular}{}
+\DeclareFontShape{T1}{od}{b}{n}{<-> fonts/odbold}{}
+\DeclareFontShape{T1}{od}{bx}{n}{<-> fonts/odbold}{}
+\DeclareFontShape{T1}{od}{m}{it}{<-> fonts/oditalic}{}
+\DeclareFontShape{T1}{od}{b}{it}{<-> fonts/odbolditalic}{}
+\DeclareFontShape{T1}{od}{bx}{it}{<-> fonts/odbolditalic}{}
+\DeclareFontShape{T1}{od}{m}{sl}{<-> fonts/oditalic}{}
+\DeclareFontFamily{T1}{odmono}{}
+\DeclareFontShape{T1}{odmono}{m}{n}{<-> fonts/odmono}{}
+\DeclareFontShape{T1}{odmono}{b}{n}{<-> fonts/odmono}{}
+\DeclareFontShape{T1}{odmono}{bx}{n}{<-> fonts/odmono}{}
+\DeclareFontShape{T1}{odmono}{m}{it}{<-> fonts/odmono}{}
+\renewcommand{\rmdefault}{od}
+\renewcommand{\sfdefault}{od}
+\renewcommand{\ttdefault}{odmono}
+\renewcommand{\familydefault}{od}
+\usepackage{ragged2e,setspace}
+\setstretch{1.3}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\widowpenalty=10000
+\clubpenalty=10000
+\AtBeginDocument{\RaggedRight\sloppy}
+\setlength{\emergencystretch}{\linewidth}
+\DeclareTextFontCommand{\texttt}{\ttfamily\small}
 \usepackage[table]{xcolor}
 \definecolor{accent}{HTML}{244F64}
 \definecolor{panel}{HTML}{EDF3F6}
@@ -13,10 +44,11 @@
 \usepackage{adjustbox,longtable,array,booktabs,enumitem,listings,fancyhdr,needspace}
 \usepackage[colorlinks=true,urlcolor=accent,linkcolor=accent]{hyperref}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{7pt}
-\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{9pt}
+\setlength{\emergencystretch}{\linewidth}
 \setlist{nosep,leftmargin=*,topsep=4pt}
-\lstset{language=Python,basicstyle=\small\ttfamily,keywordstyle=\color{accent}\bfseries,commentstyle=\color{gray},stringstyle=\color{accent},backgroundcolor=\color{panel},frame=single,rulecolor=\color{panel},breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,tabsize=4,xleftmargin=6pt,xrightmargin=6pt,framexleftmargin=6pt,framexrightmargin=6pt,literate={£}{{\pounds}}1}
+\lstset{language=Python,basicstyle=\small\ttfamily,keywordstyle=\color{accent},commentstyle=\color{gray},stringstyle=\color{accent},backgroundcolor=\color{panel},frame=single,rulecolor=\color{panel},breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,
+tabsize=4,xleftmargin=6pt,xrightmargin=6pt,framexleftmargin=6pt,framexrightmargin=6pt,literate={£}{{\pounds}}1}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small Python: Boolean logic and selection}
@@ -46,27 +78,31 @@ A \textbf{condition} is an expression used to make a decision. An \textbf{expres
 
 Start with a question that has a yes/no answer: “Is the temperature below zero?” Python can answer this by comparing the temperature with zero. The result of the comparison is a Boolean value.
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 temperature = -2
 is_freezing = temperature < 0
 print(is_freezing)  # True
 \end{lstlisting}
+\end{minipage}
+\par
 The first line stores \texttt{-2} in a variable called \texttt{temperature}. A variable is a name that refers to a value. On the second line, Python evaluates \texttt{temperature < 0}: because -2 is below zero, the result is \texttt{True}. It then stores that result in \texttt{is\_freezing}. The \texttt{=} symbol assigns a value to a variable.
 
 Finally, \texttt{print(is\_freezing)} displays the result. The text after \texttt{\#} is a comment for the reader; Python does not run it as code.
 
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (71.27,223.62) .. controls (71.27,219.96) and (71.27,216.02) .. (71.27,212.14) -- (71.273,204.35);
-\draw[->,draw=accent] (71.27,167.62) .. controls (71.27,163.96) and (71.27,160.02) .. (71.27,156.14) -- (71.273,148.35);
-\draw[->,draw=accent] (71.27,111.62) .. controls (71.27,107.96) and (71.27,104.02) .. (71.27,100.14) -- (71.273,92.351);
-\draw[->,draw=accent] (71.27,55.62) .. controls (71.27,51.96) and (71.27,48.02) .. (71.27,44.14) -- (71.273,36.351);
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (71.273,242) {temperature = -2};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (71.273,186) {Evaluate temperature < 0};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (71.273,130) {Result: True};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (71.273,74) {Store True in is\_freezing};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (71.273,18) {Print True};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (A) at (71.273,242) {temperature = -2};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (B) at (71.273,186) {Evaluate temperature < 0};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (C) at (71.273,130) {Result: True};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (D) at (71.273,74) {Store True in is\_freezing};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (E) at (71.273,18) {Print True};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- (C);
+\draw[->,accent] (C) -- (D);
+\draw[->,accent] (D) -- (E);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
@@ -88,25 +124,29 @@ With the numbers used here, each comparison evaluates to either \texttt{True} or
 \texttt{>=} & Greater than or equal to & \texttt{5 >= 5} & \texttt{True} \\
 \bottomrule\end{longtable}\endgroup
 \Needspace{5\baselineskip}\subsection*{Trace a simple comparison}
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 score = 50
 has_passed = score >= 50
 print(has_passed)  # True
 \end{lstlisting}
+\end{minipage}
+\par
 Python retrieves the value of \texttt{score}, compares it with \texttt{50}, and produces \texttt{True}. The equality part of \texttt{>=} matters: a score of exactly 50 meets the condition.
 
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (75.09,223.62) .. controls (75.09,219.96) and (75.09,216.02) .. (75.09,212.14) -- (75.086,204.35);
-\draw[->,draw=accent] (75.09,167.62) .. controls (75.09,163.96) and (75.09,160.02) .. (75.09,156.14) -- (75.086,148.35);
-\draw[->,draw=accent] (75.09,111.62) .. controls (75.09,107.96) and (75.09,104.02) .. (75.09,100.14) -- (75.086,92.351);
-\draw[->,draw=accent] (75.09,55.62) .. controls (75.09,51.96) and (75.09,48.02) .. (75.09,44.14) -- (75.086,36.351);
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (75.086,242) {score = 50};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (75.086,186) {Substitute value: 50 >= 50};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (75.086,130) {Evaluate comparison: True};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (75.086,74) {has\_passed = True};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (75.086,18) {Print True};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (A) at (75.086,242) {score = 50};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (B) at (75.086,186) {Substitute value: 50 >= 50};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (C) at (75.086,130) {Evaluate comparison: True};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (D) at (75.086,74) {has\_passed = True};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (E) at (75.086,18) {Print True};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- (C);
+\draw[->,accent] (C) -- (D);
+\draw[->,accent] (D) -- (E);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
@@ -121,6 +161,8 @@ Python normally runs statements from top to bottom. \textbf{Selection} lets a pr
 
 An \texttt{if} statement connects the condition to an action. Python first evaluates the condition after \texttt{if}. If it is true, Python runs the indented block: the statements set in from the left margin. If it is false, Python skips that block and continues after it.
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 temperature = -2
 
@@ -129,21 +171,21 @@ if temperature < 0:
 
 print("Check complete")
 \end{lstlisting}
+\end{minipage}
+\par
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (99.99,238.6) .. controls (99.99,234.69) and (99.99,230.46) .. (99.99,226.3) -- (99.99,218.48);
-\draw[->,draw=accent] (89.78,183.69) .. controls (84.44,175.68) and (77.79,165.7) .. (71.8,156.71) -- (67.378,150.08);
-\node[fill=white,inner sep=1pt] at (92.212,166) {True};
-\draw[->,draw=accent] (107.05,183.02) .. controls (110.82,173.62) and (115.07,161.37) .. (116.99,150.0) .. controls (119.65,134.22) and (120.33,129.65) .. (116.99,114.0) .. controls (116.02,109.47) and (114.48,104.83) .. (112.7,100.42) -- (109.55,93.261);
-\node[fill=white,inner sep=1pt] at (131.47,132) {False};
-\draw[->,draw=accent] (69.91,113.6) .. controls (73.44,109.18) and (77.3,104.37) .. (81.03,99.7) -- (86.008,93.478);
-\draw[->,draw=accent] (99.99,56.6) .. controls (99.99,52.69) and (99.99,48.46) .. (99.99,44.3) -- (99.99,36.478);
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (99.99,257) {temperature = -2};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (99.99,200) {temperature < 0?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (55.99,132) {Print: Ice warning};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (99.99,75) {Print: Check complete};
-\node[draw=accent,fill=panel,ellipse,inner sep=4pt,align=center] at (99.99,18) {End};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (A) at (99.99,257) {temperature = -2};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (B) at (99.99,200) {temperature < 0?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (C) at (55.99,132) {Print: Ice warning};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (D) at (99.99,75) {Print: Check complete};
+\node[draw=accent,fill=panel,ellipse,inner sep=4pt] (E) at (99.99,18) {End};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (C);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (D);
+\draw[->,accent] (C) -- (D);
+\draw[->,accent] (D) -- (E);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
@@ -164,6 +206,8 @@ Python can also test other values for “truthiness”, but this handout uses Bo
 \Needspace{5\baselineskip}\section*{4. \texttt{if} / \texttt{else}: choose between two alternatives}
 Use \texttt{else} when there is an action for the false outcome as well. Read the structure as “if this condition is true, do this; otherwise, do that”. Exactly one of these two branches runs each time Python reaches the decision.
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 score = 42
 
@@ -172,21 +216,21 @@ if score >= 50:
 else:
     print("Not yet passed")
 \end{lstlisting}
+\end{minipage}
+\par
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (92.95,181.6) .. controls (92.95,177.69) and (92.95,173.46) .. (92.95,169.3) -- (92.952,161.48);
-\draw[->,draw=accent] (80.3,127.35) .. controls (73.2,119.13) and (64.17,108.67) .. (56.12,99.35) -- (50.994,93.416);
-\node[fill=white,inner sep=1pt] at (79.838,109) {True};
-\draw[->,draw=accent] (105.6,127.35) .. controls (112.71,119.13) and (121.73,108.67) .. (129.79,99.35) -- (134.91,93.416);
-\node[fill=white,inner sep=1pt] at (138.78,109) {False};
-\draw[->,draw=accent] (53.67,56.6) .. controls (59.34,51.03) and (65.67,44.81) .. (71.52,39.07) -- (77.166,33.523);
-\draw[->,draw=accent] (131.6,56.6) .. controls (125.5,50.81) and (118.67,44.34) .. (112.43,38.42) -- (106.89,33.164);
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (92.952,200) {score = 42};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (92.952,143) {score >= 50?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (35.952,75) {Print: Pass};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (149.95,75) {Print: Not yet passed};
-\node[draw=accent,fill=panel,ellipse,inner sep=4pt,align=center] at (91.952,18) {End};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (A) at (92.952,200) {score = 42};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (B) at (92.952,143) {score >= 50?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (C) at (35.952,75) {Print: Pass};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (D) at (149.95,75) {Print: Not yet passed};
+\node[draw=accent,fill=panel,ellipse,inner sep=4pt] (E) at (91.952,18) {End};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (C);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (D);
+\draw[->,accent] (C) -- (E);
+\draw[->,accent] (D) -- (E);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
@@ -201,6 +245,8 @@ Python checks the conditions from top to bottom until one is true. It runs that 
 
 The following thresholds are illustrative, not an assessment grading policy.
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 score = 65
 
@@ -211,28 +257,26 @@ elif score >= 50:
 else:
     print("Not yet passed")
 \end{lstlisting}
+\end{minipage}
+\par
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (80.67,273.6) .. controls (80.67,269.69) and (80.67,265.46) .. (80.67,261.3) -- (80.665,253.48);
-\draw[->,draw=accent] (77.42,217.47) .. controls (73.77,198.91) and (67.82,168.58) .. (63.59,147.09) -- (62.07,139.33);
-\node[fill=white,inner sep=1pt] at (85.381,201) {True};
-\draw[->,draw=accent] (98.27,220.64) .. controls (111.36,210.71) and (129.37,197.05) .. (143.76,186.14) -- (150.09,181.34);
-\node[fill=white,inner sep=1pt] at (144.18,201) {False};
-\draw[->,draw=accent] (159.83,150.32) .. controls (152.93,136.52) and (142.77,116.2) .. (134.81,100.3) -- (131.33,93.34);
-\node[fill=white,inner sep=1pt] at (163.39,121) {True};
-\draw[->,draw=accent] (179.06,151.14) .. controls (189.8,137.12) and (206.09,115.89) .. (218.6,99.56) -- (223.36,93.35);
-\node[fill=white,inner sep=1pt] at (226.57,121) {False};
-\draw[->,draw=accent] (61.15,102.55) .. controls (63.68,89.22) and (68.57,70.84) .. (77.67,57.0) .. controls (82.93,48.99) and (90.37,41.75) .. (97.69,35.79) -- (103.76,31.096);
-\draw[->,draw=accent] (122.67,56.6) .. controls (122.67,52.69) and (122.67,48.46) .. (122.67,44.3) -- (122.67,36.478);
-\draw[->,draw=accent] (200.59,56.6) .. controls (184.67,48.92) and (166.22,40.02) .. (151.27,32.8) -- (144.24,29.41);
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (80.665,292) {score = 65};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (80.665,235) {score >= 70?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (58.665,121) {Print: High score};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (167.67,167) {score >= 50?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (122.67,75) {Print: Pass};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (236.67,75) {Print: Not yet passed};
-\node[draw=accent,fill=panel,ellipse,inner sep=4pt,align=center] at (122.67,18) {End};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (A) at (80.665,292) {score = 65};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (B) at (80.665,235) {score >= 70?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (C) at (58.665,121) {Print: High score};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (D) at (167.67,167) {score >= 50?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (E) at (122.67,75) {Print: Pass};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (F) at (236.67,75) {Print: Not yet passed};
+\node[draw=accent,fill=panel,ellipse,inner sep=4pt] (G) at (122.67,18) {End};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (C);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (D);
+\draw[->,accent] (D) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (E);
+\draw[->,accent] (D) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (F);
+\draw[->,accent] (C) -- (G);
+\draw[->,accent] (E) -- (G);
+\draw[->,accent] (F) -- (G);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
@@ -265,6 +309,8 @@ The following \textbf{truth table} lists every possible pair of Boolean values a
 \item \textbf{\texttt{not}:} reverses a Boolean value: \texttt{not True} is \texttt{False}, and \texttt{not False} is \texttt{True}.
 \end{itemize}
 \Needspace{5\baselineskip}\subsection*{6.1 \texttt{and}: require both conditions}
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 temperature = 20
 
@@ -273,36 +319,36 @@ if temperature >= 18 and temperature <= 24:
 else:
     print("Outside target range")
 \end{lstlisting}
+\end{minipage}
+\par
 Read this condition as “the temperature is at least 18 and at most 24”. For 20, \texttt{temperature >= 18} is \texttt{True} and \texttt{temperature <= 24} is also \texttt{True}. Combining them gives \texttt{True and True}, which is \texttt{True}, so Python prints \texttt{Within target range}.
 
 A temperature of 25 passes the first comparison but fails the second. One true result is not enough for \texttt{and}, so it takes the outside-range branch. The endpoints 18 and 24 are included because both comparisons allow equality.
 
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (112.19,249.6) .. controls (112.19,245.69) and (112.19,241.46) .. (112.19,237.3) -- (112.19,229.48);
-\draw[->,draw=accent] (109.9,193.23) .. controls (108.63,183.77) and (107.04,171.73) .. (105.74,161.0) .. controls (103.28,140.86) and (100.72,118.0) .. (98.88,101.07) -- (98.03,93.268);
-\node[fill=white,inner sep=1pt] at (117.96,143) {False};
-\draw[->,draw=accent] (139.65,196.96) .. controls (161.73,186.47) and (192.89,171.68) .. (216.66,160.39) -- (223.78,157.01);
-\node[fill=white,inner sep=1pt] at (204.42,177) {True};
-\draw[->,draw=accent] (252.99,125.0) .. controls (253.77,117.67) and (254.69,108.95) .. (255.55,100.9) -- (256.37,93.168);
-\node[fill=white,inner sep=1pt] at (265.6,109) {True};
-\draw[->,draw=accent] (221.67,129.43) .. controls (199.84,120.14) and (169.65,107.28) .. (144.35,96.51) -- (137.01,93.384);
-\node[fill=white,inner sep=1pt] at (199.8,109) {False};
-\draw[->,draw=accent] (232.24,56.6) .. controls (222.33,49.95) and (211.06,42.39) .. (201.23,35.8) -- (194.69,31.412);
-\draw[->,draw=accent] (121.5,56.6) .. controls (131.17,49.95) and (142.17,42.39) .. (151.76,35.8) -- (158.14,31.412);
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (112.19,268) {temperature = 20};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (112.19,211) {temperature >= 18?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (96.189,75) {Print: Outside target range};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (251.19,143) {temperature <= 24?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (258.19,75) {Print: Within target range};
-\node[draw=accent,fill=panel,ellipse,inner sep=4pt,align=center] at (176.19,18) {End};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (A) at (112.19,268) {temperature = 20};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (B) at (112.19,211) {temperature >= 18?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (E) at (96.189,75) {Print: Outside target range};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (C) at (251.19,143) {temperature <= 24?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (D) at (258.19,75) {Print: Within target range};
+\node[draw=accent,fill=panel,ellipse,inner sep=4pt] (F) at (176.19,18) {End};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (E);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (C);
+\draw[->,accent] (C) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (D);
+\draw[->,accent] (C) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (E);
+\draw[->,accent] (D) -- (F);
+\draw[->,accent] (E) -- (F);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
 Python also permits the equivalent chained comparison \texttt{18 <= temperature <= 24}.
 
 \Needspace{5\baselineskip}\subsection*{6.2 \texttt{or}: accept either condition}
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 day = "Sunday"
 
@@ -311,26 +357,24 @@ if day == "Saturday" or day == "Sunday":
 else:
     print("Weekday")
 \end{lstlisting}
+\end{minipage}
+\par
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (102.68,249.6) .. controls (102.68,245.69) and (102.68,241.46) .. (102.68,237.3) -- (102.68,229.48);
-\draw[->,draw=accent] (99.31,193.33) .. controls (96.33,176.14) and (92.91,148.61) .. (96.11,125.0) .. controls (97.2,117.0) and (99.24,108.46) .. (101.42,100.78) -- (103.61,93.451);
-\node[fill=white,inner sep=1pt] at (106.39,143) {True};
-\draw[->,draw=accent] (126.47,196.8) .. controls (145.16,186.44) and (171.3,171.94) .. (191.47,160.75) -- (198.33,156.95);
-\node[fill=white,inner sep=1pt] at (185.06,177) {False};
-\draw[->,draw=accent] (199.28,128.8) .. controls (184.06,119.84) and (163.59,107.77) .. (146.06,97.44) -- (139.25,93.43);
-\node[fill=white,inner sep=1pt] at (185.99,109) {True};
-\draw[->,draw=accent] (221.68,124.66) .. controls (221.68,117.44) and (221.68,108.92) .. (221.68,101.04) -- (221.68,93.454);
-\node[fill=white,inner sep=1pt] at (233.9,109) {False};
-\draw[->,draw=accent] (127.08,56.6) .. controls (132.65,51.03) and (138.86,44.81) .. (144.61,39.07) -- (150.15,33.523);
-\draw[->,draw=accent] (203.64,56.6) .. controls (197.65,50.81) and (190.94,44.34) .. (184.8,38.42) -- (179.35,33.164);
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (102.68,268) {day = Sunday};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (102.68,211) {day == Saturday?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (109.68,75) {Print: Weekend};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (221.68,143) {day == Sunday?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (221.68,75) {Print: Weekday};
-\node[draw=accent,fill=panel,ellipse,inner sep=4pt,align=center] at (164.68,18) {End};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (A) at (102.68,268) {day = Sunday};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (B) at (102.68,211) {day == Saturday?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (D) at (109.68,75) {Print: Weekend};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (C) at (221.68,143) {day == Sunday?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (E) at (221.68,75) {Print: Weekday};
+\node[draw=accent,fill=panel,ellipse,inner sep=4pt] (F) at (164.68,18) {End};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (D);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (C);
+\draw[->,accent] (C) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (D);
+\draw[->,accent] (C) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (E);
+\draw[->,accent] (D) -- (F);
+\draw[->,accent] (E) -- (F);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
@@ -343,6 +387,8 @@ This example assumes \texttt{day} contains a correctly capitalised day name. Str
 Write each comparison in full. \texttt{day == "Saturday" or "Sunday"} does not compare \texttt{day} with both strings: the non-empty string \texttt{"Sunday"} is truthy, so that condition always selects the true branch.
 
 \Needspace{5\baselineskip}\subsection*{6.3 \texttt{not}: reverse a condition}
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 is_locked = False
 
@@ -351,21 +397,21 @@ if not is_locked:
 else:
     print("Door is locked")
 \end{lstlisting}
+\end{minipage}
+\par
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (127.81,181.6) .. controls (127.81,177.69) and (127.81,173.46) .. (127.81,169.3) -- (127.81,161.48);
-\draw[->,draw=accent] (113.05,127.68) .. controls (104.3,119.19) and (93.01,108.23) .. (83.08,98.59) -- (77.425,93.101);
-\node[fill=white,inner sep=1pt] at (110.18,109) {True};
-\draw[->,draw=accent] (142.56,127.68) .. controls (151.31,119.19) and (162.6,108.23) .. (172.53,98.59) -- (178.19,93.101);
-\node[fill=white,inner sep=1pt] at (180.12,109) {False};
-\draw[->,draw=accent] (81.0,56.6) .. controls (88.43,50.5) and (96.8,43.63) .. (104.33,37.45) -- (110.42,32.455);
-\draw[->,draw=accent] (173.97,56.6) .. controls (166.17,50.38) and (157.36,43.36) .. (149.49,37.08) -- (143.68,32.455);
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (127.81,200) {is\_locked = False};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (127.81,143) {not is\_locked?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (59.805,75) {Print: Door can open};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (195.81,75) {Print: Door is locked};
-\node[draw=accent,fill=panel,ellipse,inner sep=4pt,align=center] at (126.81,18) {End};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (A) at (127.81,200) {is\_locked = False};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (B) at (127.81,143) {not is\_locked?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (C) at (59.805,75) {Print: Door can open};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (D) at (195.81,75) {Print: Door is locked};
+\node[draw=accent,fill=panel,ellipse,inner sep=4pt] (E) at (126.81,18) {End};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (C);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (D);
+\draw[->,accent] (C) -- (E);
+\draw[->,accent] (D) -- (E);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
@@ -387,6 +433,8 @@ For example, if the temperature is 10, the first test in the range check is fals
 \Needspace{5\baselineskip}\section*{7. Combine operators to express a fuller rule}
 \textbf{Rule:} a person may enter if they have a ticket or a guest pass, provided they are not banned.
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 has_ticket = False
 has_guest_pass = True
@@ -397,6 +445,8 @@ if (has_ticket or has_guest_pass) and not is_banned:
 else:
     print("Entry refused")
 \end{lstlisting}
+\end{minipage}
+\par
 Build the evaluation in stages:
 
 \begin{enumerate}
@@ -405,30 +455,24 @@ Build the evaluation in stages:
 \item \texttt{True and True} \ensuremath{\rightarrow} \texttt{True}, so the entry-allowed branch runs.
 \end{enumerate}
 \begin{center}
-\begin{adjustbox}{max width=\linewidth,max totalheight=0.38\textheight}
-\begin{tikzpicture}[x=1bp,y=1bp,>=Stealth,every node/.style={font=\small}]
-\draw[->,draw=accent] (94.39,317.6) .. controls (94.39,313.69) and (94.39,309.46) .. (94.39,305.3) -- (94.386,297.48);
-\draw[->,draw=accent] (91.58,261.27) .. controls (90.14,251.83) and (88.54,239.79) .. (87.82,229.0) .. controls (86.47,208.74) and (87.6,185.72) .. (88.93,168.75) -- (89.596,160.95);
-\node[fill=white,inner sep=1pt] at (98.105,211) {True};
-\draw[->,draw=accent] (116.73,266.2) .. controls (136.5,255.76) and (165.57,240.42) .. (187.73,228.71) -- (194.66,225.05);
-\node[fill=white,inner sep=1pt] at (180.31,245) {False};
-\draw[->,draw=accent] (194.1,196.96) .. controls (173.59,186.38) and (144.58,171.43) .. (122.62,160.1) -- (115.75,156.56);
-\node[fill=white,inner sep=1pt] at (177.13,177) {True};
-\draw[->,draw=accent] (219.39,192.76) .. controls (219.39,169.44) and (219.39,127.7) .. (219.39,100.96) -- (219.39,93.178);
-\node[fill=white,inner sep=1pt] at (231.61,143) {False};
-\draw[->,draw=accent] (90.6,124.66) .. controls (90.27,117.44) and (89.88,108.92) .. (89.52,101.04) -- (89.179,93.454);
-\node[fill=white,inner sep=1pt] at (100.43,109) {True};
-\draw[->,draw=accent] (115.76,129.43) .. controls (133.62,120.22) and (158.26,107.52) .. (179.03,96.81) -- (185.91,93.259);
-\node[fill=white,inner sep=1pt] at (179.08,109) {False};
-\draw[->,draw=accent] (108.95,56.6) .. controls (116.04,50.6) and (124.01,43.85) .. (131.22,37.75) -- (137.07,32.808);
-\draw[->,draw=accent] (198.5,56.6) .. controls (191.19,50.5) and (182.95,43.63) .. (175.53,37.45) -- (169.53,32.455);
-\node[draw=accent,fill=panel,ellipse,inner sep=4pt,align=center] at (94.386,336) {Start};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (94.386,279) {has\_ticket?};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (91.386,143) {not is\_banned?};
-\node[draw=accent,fill=panel,diamond,inner sep=4pt,align=center] at (219.39,211) {has\_guest\_pass?};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (219.39,75) {Print: Entry refused};
-\node[draw=accent,fill=panel,rectangle,inner sep=4pt,align=center] at (88.386,75) {Print: Entry allowed};
-\node[draw=accent,fill=panel,ellipse,inner sep=4pt,align=center] at (153.39,18) {End};
+\begin{adjustbox}{max width=\linewidth,max totalheight=0.5\textheight}
+\begin{tikzpicture}[x=1.7bp,y=1.5bp,>=Stealth,every node/.style={font=\small}]
+\node[draw=accent,fill=panel,ellipse,inner sep=4pt] (A) at (94.386,336) {Start};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (B) at (94.386,279) {has\_ticket?};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (D) at (91.386,143) {not is\_banned?};
+\node[draw=accent,fill=panel,diamond,aspect=3,inner sep=4pt] (C) at (219.39,211) {has\_guest\_pass?};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (F) at (219.39,75) {Print: Entry refused};
+\node[draw=accent,fill=panel,rectangle,inner sep=4pt] (E) at (88.386,75) {Print: Entry allowed};
+\node[draw=accent,fill=panel,ellipse,inner sep=4pt] (G) at (153.39,18) {End};
+\draw[->,accent] (A) -- (B);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (D);
+\draw[->,accent] (B) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (C);
+\draw[->,accent] (C) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (D);
+\draw[->,accent] (C) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (F);
+\draw[->,accent] (D) -- node[midway,fill=white,inner sep=2pt,font=\small]{True} (E);
+\draw[->,accent] (D) -- node[midway,fill=white,inner sep=2pt,font=\small]{False} (F);
+\draw[->,accent] (E) -- (G);
+\draw[->,accent] (F) -- (G);
 \end{tikzpicture}
 \end{adjustbox}
 \end{center}
@@ -440,6 +484,8 @@ Without the parentheses, \texttt{has\_ticket or has\_guest\_pass and not is\_ban
 
 As conditions become longer, meaningful variable names can make them easier to read and explain. The following version stores the two stages of the rule before using the final Boolean value in an \texttt{if}. It makes the same entry decision as the previous example:
 
+\begin{minipage}{\linewidth}
+\hyphenpenalty=50\exhyphenpenalty=50
 \begin{lstlisting}
 has_entry_permission = has_ticket or has_guest_pass
 can_enter = has_entry_permission and not is_banned
@@ -449,6 +495,8 @@ if can_enter:
 else:
     print("Entry refused")
 \end{lstlisting}
+\end{minipage}
+\par
 \Needspace{5\baselineskip}\section*{8. Closing reference: from values to program flow}
 \begingroup\small\renewcommand{\arraystretch}{1.3}\begin{longtable}{>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.33333\linewidth-2\tabcolsep\relax}}
 \toprule
