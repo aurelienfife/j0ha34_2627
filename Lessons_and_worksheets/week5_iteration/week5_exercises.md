@@ -1,47 +1,31 @@
-# Unit 4 (week 5): Iteration in Python
+# Unit 4 (week 5): Iteration — practical exercises
 
-**J0HA 34 Computer Programmiung | HNC Cybersecurity**
+**J0HA 34 Computer Programming - HNC Cybersecurity - September 2026**
 
-This handout follows the practical worksheet: `for` loops, totals and counters, `while` loops, debugging, then turtle graphics. The final section supports the optional extensions; functions are not required for the core activities.
+**Harder mode at the end of handout (if you know the basics already)**
 
-## Learning intentions
+Start by reproducing the examples, then adapt them and have a go at the challenges. Keep the handout nearby. Use the hints if you get stuck.
 
-By the end of this handout, you should be able to:
+## Before you start
 
-- Explain how a loop repeats a block of instructions.
-- Use `for` and `range()` for a known number of repetitions.
-- Trace counters and running totals as a loop executes.
-- Explain how a `while` condition controls repetition and how a loop stops.
-- Choose a suitable loop and recognise common mistakes.
+Advice: a separate Python file for each exercise. You will use variables, `print()`, user input and some of the selection from Week 3.
 
-## Before you start: why use a loop?
-
-In the selection topic, we used conditions to choose which instructions to run. This week, we use loops to repeat instructions. **Iteration** means repetition; one iteration is one execution of the loop body.
-
-Imagine printing a message three times:
+Remember that `input()` returns strings (text). Use `int()` for a conversion to intgers count and `float()` for numbers with decimals. For example:
 
 ```python
-print("Check complete")
-print("Check complete")
-print("Check complete")
+repetitions = int(input("How many repetitions? "))
+price = float(input("Enter a price: "))
 ```
 
-This works, but changing the message means editing three lines. Repeating it 100 times would mean writing much more code. A loop lets us write the action once and describe how it should repeat.
+Enter a valid number when asked. If you enter an invalid input, it will crash, but the extension activity tries to address this (we'll do it later for the Scripting Unit). For prices, enter `2.50`, without a currency sign.
 
-```python
-for check in range(3):
-    print("Check complete")
-```
-
-The indented statement is the **loop body**. Python runs it three times. The colon introduces the body, and indentation shows which statements belong to it, just as it did with `if`.
-
-A loop does not restart the whole program. It repeats only the statements in its body. Statements after the loop run when repetition finishes.
+Tip: predict the result before running each test. Each row in a test table is a separate run. Where a row contains several entries, type them one at a time at successive prompts. Record whether your actual result matches the expected result.
 
 ## A. `for` loops
 
-### 1. Numbered checks — worksheet Exercise 1
+### 1. Try the code an modify it
 
-A `for` loop takes values from an iterable, such as a range of numbers, one at a time. An **iterable** is something Python can obtain successive items from. For now, we will use `range()` to supply those items.
+Type and run this code:
 
 ```python
 for check in range(1, 4):
@@ -50,146 +34,101 @@ for check in range(1, 4):
 print("All checks complete")
 ```
 
-`range(1, 4)` supplies 1, 2 and 3. At the start of each iteration, Python assigns the next value to `check`, the **loop variable**. The body then prints it. After 3, there are no more values, so Python leaves the loop and prints the final message.
+1. Check that it prints check numbers 1, 2 and 3, then the final message once.
+2. Change the range so it prints check numbers 1 to 5, including 5.
+3. Ask the user how many checks to run. Convert the answer to an integer called `checks`.
+4. Adapt the range so the numbering begins at 1 and ends at the requested number.
 
-| Iteration | Value of `check` | Output from the body |
-| --- | --- | --- |
-| 1 | 1 | `Check number: 1` |
-| 2 | 2 | `Check number: 2` |
-| 3 | 3 | `Check number: 3` |
+| Requested checks | Expected result |
+| --- | --- |
+| 1 | Check number 1, then the final message |
+| 3 | Check numbers 1, 2, 3, then the final message |
+| 0 | Only the final message |
 
-```mermaid
-flowchart TD
-    A[Prepare range 1, 2, 3] --> B{Another value?}
-    B -- Yes --> C[Assign next value to check]
-    C --> D[Print check number]
-    D --> B
-    B -- No --> E[Print All checks complete]
-    E --> F([End])
-```
+Add a comment explaining why the stop value in your range is one greater than the last number printed. Assume the user enters a non-negative integer.
 
-Follow the return arrow from the body back to the decision. That return is what makes this a loop. Python manages the next value automatically; you do not need to add 1 to `check` yourself.
+**Hint:** `range()` excludes the stop value. For a reminder, see [W3Schools: for loops](https://www.w3schools.com/python/python_for_loops.asp).
 
-### 2. Counting up and down — worksheet Exercise 2
+### 2. Code challenge: count up, then count down
 
-The **stop value is excluded**. This matters when deciding how many times the body will run.
+Write a program that asks for a positive whole number and stores it in `limit`.
 
-| Expression | Values supplied | Meaning |
-| --- | --- | --- |
-| `range(4)` | 0, 1, 2, 3 | Start at 0 and stop before 4 |
-| `range(1, 4)` | 1, 2, 3 | Start at 1 and stop before 4 |
-| `range(2, 9, 2)` | 2, 4, 6, 8 | Increase by 2 each time |
-| `range(3, 0, -1)` | 3, 2, 1 | Decrease by 1 each time |
-| `range(0)` | No values | The body does not run |
+- Use a `for` loop to print the numbers from 1 to `limit`, inclusive.
+- Print `Counting down` after that loop.
+- Use a second `for` loop to print from `limit` down to 1.
+- Print `Finished` once at the end.
 
-The third argument is the **step**. It defaults to 1 and cannot be zero. Use a negative step when counting down. `range(3, 0)` is empty because the default positive step cannot move from 3 towards a lower stop value.
+Put the two loops one after the other. Do not put one inside the other.
 
-Two loops placed one after the other run in sequence: the first finishes before the second starts. They do not need to be nested to count up and then count down.
+**Check:** entering 3 should produce 1, 2, 3, then `Counting down`, then 3, 2, 1, then `Finished`. Entering 1 should print 1 on each side of the countdown message.
 
-```python
-limit = int(input("Enter a positive whole number: "))
+**Hints:** use a negative step for the second loop. The stop value is excluded even when counting down. Revisit the `range()` examples in the handout.
 
-for number in range(1, limit + 1):
-    print(number)
-
-print("Counting down")
-
-for number in range(limit, 0, -1):
-    print(number)
-```
-
-This example assumes a positive whole number. `limit + 1` includes the chosen limit on the way up; the stop value 0 includes 1 on the way down. Neither loop prints 0.
-
-`range()` expects integers. If the user supplies a repetition count, convert the input with `int()` before passing it to `range()`.
-
-**Further reading:** [Python tutorial: `for` and `range()`](https://docs.python.org/3/tutorial/controlflow.html), [W3Schools: for loops](https://www.w3schools.com/python/python_for_loops.asp).
+**Note**: you can validate your input by ending the program if a negative value is entered. You can use the `exit()` function.
 
 ## B. Counting and accumulation
 
-### 3. Add prices and count items — worksheet Exercise 3
+### 3. Try and mofidy:
 
-An **accumulator** combines values as they arrive. For a running sum, start at zero and add each new value to the existing total.
+Type and run this code demonstrating the use of an accumulator:
 
 ```python
 total = 0.0
 
-for item in range(1, 4):
+for item in range(3):
     price = float(input("Enter a price: "))
     total = total + price
 
 print("Total:", total)
 ```
 
-`input()` returns text. `float()` converts it to a number that can include a decimal part. Enter `2.50`, without a currency symbol. The new `price` replaces the previous price on each iteration, but `total` preserves the sum so far.
+1. Enter 2.50, 3.00 and 1.50. The total should be 7.0.
+2. Add a counter called `expensive_items`, starting at zero before the loop.
+3. Inside the loop, use an `if` to increase the counter when the current price is strictly greater than £5.
+4. After the loop, print the count as well as the total.
 
-| Iteration | Entered price | Total before addition | Total after addition |
-| --- | --- | --- | --- |
-| 1 | 2.50 | 0.00 | 2.50 |
-| 2 | 3.00 | 2.50 | 5.50 |
-| 3 | 1.50 | 5.50 | 7.00 |
-
-```mermaid
-flowchart TD
-    A[Set total to 0] --> B{Another item in range?}
-    B -- Yes --> C[Read and convert price]
-    C --> D[Add price to total]
-    D --> B
-    B -- No --> E[Print total]
-    E --> F([End])
-```
-
-The initial assignment runs once. The update runs for each price. The final print runs after all prices have been added. Moving the initial assignment inside the loop would reset the total each time.
-
-A **counter** records how many times something happens. It usually adds 1, while a running total adds the current value. Both keep information between iterations. `total += price` is the shorter form of `total = total + price`.
-
-For a price display with two decimal places, use `print(f"Total: £{total:.2f}")`. The `f` allows a value inside braces, and `:.2f` displays two digits after the decimal point. This changes the display, not the stored value.
-
-### Combining a total with a counter
-
-For the adaptation in Exercise 3, keep two separate variables: one for the total price and one for the number of prices above £5. Initialise both before the loop. Add every price to the total, but increase the counter only when the comparison is true.
-
-The counter update therefore belongs inside an `if`, which itself belongs inside the loop. This creates two indentation levels. A price of exactly £5 is not above £5, so it contributes to the total without increasing that counter.
-
-### 4. Count failed logins — worksheet Exercise 4
-
-A **counter** records how many times something happens. The loop variable tells us which item we are processing; a separate counter can tell us how many items meet a condition.
-
-This example asks for three simulated login outcomes and counts failures. Enter `success` or `failure` exactly as shown, in lowercase with no extra spaces. This smaller example uses three outcomes; the worksheet asks you to process five.
-
-```python
-failures = 0
-
-for attempt in range(1, 4):
-    outcome = input("Login outcome (success/failure): ")
-    if outcome == "failure":
-        failures = failures + 1
-
-print("Failed logins:", failures)
-```
-
-The counter starts at zero **before** the loop. On each iteration, the `if` checks the current answer. Only a failure increases the counter. Notice the two indentation levels: the `if` belongs to the loop, and the counter update belongs to the `if`.
-
-`failures = failures + 1` means “take the current value, add 1, and store the result back in the same variable”. It is an assignment, not an algebraic equation. Python also allows the shorter form `failures += 1`.
-
-| Input | Counter before the check | Counter after the check |
+| Three prices | Expected total | Expected count above £5 |
 | --- | --- | --- |
-| `failure` | 0 | 1 |
-| `success` | 1 | 1 |
-| `failure` | 1 | 2 |
+| 2.50, 3.00, 1.50 | 7.00 | 0 |
+| 5.00, 5.50, 6.00 | 16.50 | 2 |
+| 0, 0, 0 | 0.00 | 0 |
 
-The final output is `Failed logins: 2`. This example assumes valid outcome words; it does not yet reject other answers.
+**Hints:** the total increases by the current price; the counter increases by 1. Use two indentation levels for an `if` inside a loop. See [W3Schools: Python operators](https://www.w3schools.com/python/python_operators.asp) for `+=` if you want to try the shorter update form.
 
-`input()` already returns a string, so no numeric conversion is needed. `"Failure"` and `"failure"` are different strings. You do not need `strip()` or `lower()` for this exercise.
 
-In the worksheet, the decision to flag a batch happens **after** the loop. The check for an individual failure happens **inside** it. This means the final decision uses the complete count, rather than making a new decision after every entry.
+### 4. Somehow cyber-related scenario ;) : summarise login outcomes
+
+Imagine you are checking a small batch of simulated login results. Write a program that asks for exactly five outcomes, one at a time. For this activity, enter only `success` or `failure`.
+
+- Start a failure counter at zero before the loop.
+- Use a `for` loop to ask for five outcomes.
+- Count each failure.
+- After the loop, print the failure count.
+- If there are three or more failures, also print `Review these login results`. Otherwise, print `No review flag for this batch`.
+
+This is an example classroom rule for flagging a batch of results.
+
+| Outcomes, entered in order | Failure count | Final message |
+| --- | --- | --- |
+| success, success, success, success, success | 0 | No review flag for this batch |
+| failure, success, failure, success, success | 2 | No review flag for this batch |
+| failure, success, failure, success, failure | 3 | Review these login results |
+
+**Hints:**
+
+- Use `outcome = input("Login outcome (success/failure): ")` to read each answer, then compare `outcome` with `"failure"`.
+- For now, type `success` or `failure` exactly as shown: lowercase, with no spaces before or after the word. Python treats `"Failure"` and `"failure"` as different strings. We have not covered `strip()` or `lower()` yet, so you do not need them for this exercise. However, you can give them a try :)
+- The failure check belongs inside the loop. The final review decision belongs after the loop, once all five answers have been counted.
+- Start by getting the count right, then add the review message.
+- Use [W3Schools: for loops](https://www.w3schools.com/python/python_for_loops.asp) and [Python conditions](https://www.w3schools.com/python/python_conditions.asp) if needed.
 
 ## C. `while` loops
 
-### 5. Keep asking for a password — worksheet Exercise 5
+### 5. Reproduce, then adapt: enter the password
 
-A `while` loop checks a condition before each iteration. If it is true, Python runs the body and returns to the check. If it is false, Python skips the body and continues after the loop. The comparison produces a Boolean just as it did with `if`, but now it controls repetition.
+Write a program that keeps asking for a password until the correct one is entered. Use the made-up password below for this classroom example; do not enter a real password. This demonstrates a loop, not a complete login system.
 
-Use a made-up password for this classroom example. The purpose is to understand the loop; this is not a complete login system.
+Type and run this code:
 
 ```python
 expected_password = "python123"
@@ -202,111 +141,84 @@ while password != expected_password:
 print("Access granted")
 ```
 
-Read the condition as “while the entered password is not equal to the expected password”. The first input gives `password` a value before the check. The second input replaces it after each incorrect answer. The loop ends when the comparison becomes false.
+The first prompt gives `password` a value before the condition is checked. The prompt inside the loop updates that value after a wrong answer. Once the two strings match, the condition becomes false and the program continues after the loop.
 
-```mermaid
-flowchart TD
-    A[Set expected password] --> B[Read first password]
-    B --> C{Password incorrect?}
-    C -- True --> D[Print retry message]
-    D --> E[Read another password]
-    E --> C
-    C -- False --> F[Print Access granted]
-    F --> G([End])
-```
+1. Enter `wrong`, then `python123`. Check that you see one incorrect-password message, followed by `Access granted`.
+2. Run it again and enter `python123` straight away. The loop body should run zero times.
+3. Try `Python123`, then `python123`. Explain why the capital letter makes a difference.
+4. Adapt the program to count all attempts, including the successful one. Print the attempt count after access is granted.
+5. Add a comment explaining why the second `input()` is needed. Compare this with Exercise 2: here, you do not know in advance how many repetitions will be needed.
 
-| Entered text | Result of `password != expected_password` | What happens next? |
+**Check your adapted version:** entering the correct password straight away should give 1 attempt; `wrong`, then `python123` should give 2; `wrong`, `Python123`, then `python123` should give 3.
+
+**Hints:**
+
+- Keep the password as a string. You do not need `int()` or `float()` for this input.
+- Compare the text exactly as entered. You do not need `strip()` or `lower()`; capital letters and spaces change the answer.
+- The first input is already one attempt, so initialise your counter to 1 after that prompt. Increase it each time another password is entered inside the loop.
+- Keep `Access granted` and the final count outside the loop. Do not print the entered password to trace the program; trace the attempt count instead.
+- If you accidentally create an endless loop, use Stop in your editor or Ctrl+C in a terminal. See [W3Schools: while loops](https://www.w3schools.com/python/python_while_loops.asp).
+
+### 6. Code challenge: keep a running total until zero
+
+Ask the user for amounts until they enter 0. Accept positive or negative numeric amounts; 0 is the stop signal and must not count as an entry.
+
+Your program should:
+
+- Initialise `total` to 0.0 and `count` to 0 before the loop.
+- Read the first amount using `float(input(...))` before the condition is checked.
+- Use `while` to keep processing non-zero amounts.
+- Add each amount to the total and increase the count.
+- Read another amount before the body ends.
+- Print the count and total after the loop.
+
+| Inputs, in order | Expected count | Expected total |
 | --- | --- | --- |
-| `wrong` | `True` | Print retry message and ask again |
-| `Python123` | `True` | Ask again: the capital letter changes the string |
-| `python123` | `False` | Leave the loop and print `Access granted` |
+| 4, 6, 0 | 2 | 10 |
+| 0 | 0 | 0 |
+| 2.50, -1.00, 0 | 2 | 1.50 |
 
-For this sequence, there are three inputs but only two executions of the loop body. If the first input is correct, the body runs **zero times**. The initial prompt is outside the loop and still runs once.
+**Hints:**
 
-### Counting attempts
+- The condition should test whether the current amount is different from the sentinel.
+- You need an input before the loop and another inside it. Without the second one, you will keep adding the same amount.
+- Keep the final output outside the loop.
+- Sketch the return arrow in a flowchart before coding if it helps. See [W3Schools: while loops](https://www.w3schools.com/python/python_while_loops.asp).
 
-An attempt is an entered password, not necessarily an iteration. To count every attempt, including the successful one, start the counter at 1 after the first input. Increase it whenever the loop reads another answer. Print the final count after the loop.
+### 7. Find the bug: where did the total go?
 
-For example, one incorrect entry followed by a correct entry means two attempts, even though the body runs only once. Trace the attempt count rather than printing entered passwords.
-
-### What makes the loop stop?
-
-A `for` loop over a range obtains its next value automatically. A `while` loop does not update your variables for you. Here, the new input gives the condition a chance to become false. Without the second input, an incorrect first password would stay unchanged and the loop would keep printing its message: an **infinite loop**.
-
-Before running a `while` loop, identify what changes and how that can make the condition false. If a program keeps running unexpectedly, use your editor's Stop button or Ctrl+C in a terminal, then check the update and indentation.
-
-**Further reading:** [W3Schools: while loops](https://www.w3schools.com/python/python_while_loops.asp).
-
-### 6. Keep a running total until zero — worksheet Exercise 6
-
-Sometimes we do not know how many values the user will enter. A **sentinel** is an agreed value that means “stop”. In this example, 0 ends entry and is not counted as a reading.
+This code runs, but the total is wrong. Reproduce it and enter 2, 3 and 4.
 
 ```python
-total = 0.0
-count = 0
-amount = float(input("Enter an amount, or 0 to finish: "))
+for item in range(3):
+    total = 0.0
+    price = float(input("Enter a price: "))
+    total = total + price
 
-while amount != 0:
-    total = total + amount
-    count = count + 1
-    amount = float(input("Enter an amount, or 0 to finish: "))
-
-print("Amounts entered:", count)
 print("Total:", total)
 ```
 
-The first input happens before the loop so that `amount` exists when Python first checks the condition. Each accepted amount is added and counted. The input at the bottom obtains a new value for the next check.
+1. Write down what it prints and what it should print.
+2. Trace the value of `total` at the start and end of each iteration.
+3. Fix the code so it adds all three prices.
+4. Test 2, 3, 4 again: the total should be 9. Then test 0, 5, 0: the total should be 5.
+5. Add a comment explaining which statement should run once and which should repeat.
 
-```mermaid
-flowchart TD
-    A[Set total and count to 0] --> B[Read amount]
-    B --> C{amount not equal to 0?}
-    C -- True --> D[Add amount and increase count]
-    D --> E[Read next amount]
-    E --> C
-    C -- False --> F[Print count and total]
-    F --> G([End])
-```
-
-Entering 4, 6 and 0 gives a count of 2 and a total of 10. Entering 0 immediately gives a count of 0 and a total of 0. The sentinel is checked before the body, so it never increases the count.
-
-If the second input were missing, the loop would keep processing the same non-zero amount. This is the same pattern as the password loop: the next input gives the condition a new value to check.
-
-The sentinel must suit the task. Here, zero cannot also be recorded as an ordinary reading. If zero were meaningful data, we would need a different stopping rule.
-
-### 7. Find the bug: initialisation and updates — worksheet Exercise 7
-
-| Situation | Suitable starting point | Reason |
-| --- | --- | --- |
-| Ask for exactly five results | `for` with `range()` | The repetition count is known |
-| Process each item in a sequence | `for` | Each supplied item is visited in turn |
-| Keep asking until a stop value arrives | `while` | The number of entries is not known |
-| Ask until the password matches | `while` | The number of attempts is not known |
-
-Initialisation gives a variable its starting value. An update changes that value using the work done so far. If you put `total = 0.0` inside a price-entry loop, every iteration discards the previous total. After the last iteration, only the final price remains in the sum.
-
-With prices 2, 3 and 4, a correctly placed initialisation gives running totals of 2, 5 and 9. Resetting inside the loop instead gives 2, 3 and 4. All the statements are valid Python; their position causes the logic error.
-
-When a result is wrong, trace a small example rather than guessing. Write down the variable values before and after each update.
-
-| Symptom | What to check |
-| --- | --- |
-| One repetition too few | The excluded stop value in `range()` |
-| A total only reflects the last entry | Whether the total is reset inside the loop |
-| A loop never stops | Whether the input or control variable changes |
-| A final message repeats | Whether it is accidentally indented inside the loop |
-| A comparison raises a type error | Whether numeric input was converted |
-
-The core pattern is: initialise any stored values, repeat the required work, update what needs to change, then use the result after the loop.
+**Hint:** the assignment to zero is valid Python. The problem is where it happens. Look back at the initialisation and update in Exercise 3.
 
 ## D. A different application: turtle graphics
 
-### 8. Repeat a drawing action — worksheet Exercise 8
+### 8. Reproduce, then adapt: draw a regular polygon
 
-A loop can repeat drawing commands as well as text output. Turtle opens a drawing window and moves a cursor with a pen. This needs an environment with turtle and graphical-window support.
+Use a Python environment that supports turtle graphics and can open a drawing window. Save the file as `polygon_loop.py`, not `turtle.py`. If the window cannot open, ask for help with the environment and use the text-only fallback below.
+
+Start by reproducing this square:
 
 ```python
 import turtle
+
+turtle.shape("turtle")
+turtle.pensize(3)
 
 for side in range(4):
     turtle.forward(80)
@@ -315,53 +227,100 @@ for side in range(4):
 turtle.done()
 ```
 
-`import turtle` makes the commands available. Each iteration draws a side 80 pixels long and turns clockwise by 90 degrees. Four iterations form a square. `turtle.done()` keeps the window open until you close it; it goes after the loop.
+Each iteration draws one side and turns ready for the next side. Four repetitions close the square. `forward(80)` draws 80 pixels; `right(90)` turns clockwise by 90 degrees. `done()` keeps the window open until you close it.
 
-For a regular polygon, each side is the same length and the turns are equal. The turtle turns through 360 degrees in total, so the exterior turning angle is `360 / sides`.
+Now use this starter for a shape with a user-selected number of sides:
 
-| Sides | Turn after each side | Result |
-| --- | --- | --- |
-| 3 | 120 degrees | Triangle |
-| 4 | 90 degrees | Square |
-| 6 | 60 degrees | Hexagon |
+```python
+import turtle
 
-In the worksheet, first check that the side count is between 3 and 8. Only then calculate the angle and run the drawing loop. The loop belongs inside the valid-input branch; its movement and turn belong inside the loop. This is selection controlling whether repetition happens.
+sides = int(input("Number of sides (3 to 8): "))
+turtle.shape("turtle")
+turtle.pensize(3)
 
-The `# PLACEHOLDER CODE HERE` line is a comment marking where to add those instructions. Python ignores comments, so the starter will not draw a polygon until you replace it with your code.
+# PLACEHOLDER CODE HERE: replace this comment with your decision and loop.
 
-**Further reading:** [Python documentation: turtle graphics](https://docs.python.org/3/library/turtle.html).
+turtle.done()
+```
 
-## For the Brave (or non-beginners)
+The line beginning `# PLACEHOLDER CODE HERE` is a comment marking where to write your code. Delete that line and put your decision and loop in its place.
 
-These notes follow the extension order in the worksheet. They are optional. We have not covered functions yet, so the function-based challenge comes second.
+- If `sides` is below 3 or above 8, print `Choose between 3 and 8 sides` and do not draw a polygon.
+- Otherwise, calculate `angle = 360 / sides` and use a `for` loop to draw that many sides.
+- Inside the loop, move forward 80 pixels and turn right by `angle` degrees.
 
-### Extension 1. Handle mistyped readings
+The turtle must turn through a full 360 degrees to return to its original direction. Dividing that turn equally between the sides gives the exterior turning angle. This is why a square uses 90 degrees and a triangle uses 120 degrees.
 
-The core activities assume numeric input can be converted. `float("hello")` cannot be converted and raises a `ValueError`. `try/except ValueError` allows a program to respond to that error and ask again. Update the count and total only after conversion succeeds.
+**Check:** 3 should draw a triangle; 4 a square; 6 a hexagon. Inputs 2 and 9 should print the message and draw no polygon. Close the window between runs and enter the next side count in the console.
 
-For this extension, `q` replaces zero as the stop signal. Check for `q` before attempting numeric conversion, because it is a command rather than a number. Zero can now be recorded and counted as ordinary data.
+**Hints:**
 
-The extension also accepts surrounding spaces and uppercase `Q`. Two string methods can help: `.strip()` returns text without leading or trailing whitespace, and `.lower()` returns a lowercase version. For example, `" Q ".strip().lower()` produces `"q"`. They do not convert text to a number; use `float()` separately for numeric entries. These methods are additional material for this extension, not a requirement for the core password exercise.
+- Check the allowed range before calculating the angle or starting the loop.
+- Put the loop inside the valid-input branch, with the drawing commands indented inside the loop.
+- The stop value `sides` gives exactly that many repetitions when the range starts at zero.
+- See [Python documentation: turtle graphics](https://docs.python.org/3/library/turtle.html) and [W3Schools: for loops](https://www.w3schools.com/python/python_for_loops.asp).
 
-After entry finishes, calculate the mean as `total / count` only when the count is greater than zero. With no accepted readings, there is no mean and division by zero must be avoided.
+**Text-only fallback:** keep the input, decision and loop, but remove the turtle commands. Inside the loop, print the side number and the calculated turning angle. For 3 sides, you should see three lines with a turn of 120 degrees.
 
-**Further reading:** [W3Schools: try/except](https://www.w3schools.com/python/python_try_except.asp).
 
-### Extension 2. Functions, assertions and unit testing
 
-A function groups instructions into a named operation. In `summarise(readings)`, `readings` supplies the numbers to process. The loop calculates the count and total, and `return` sends the results back to the code that called the function. This lets the calculation be tested without typing answers into prompts.
+## For the Brave (or non-beginners) 
 
-An assertion checks a result automatically. After defining the function, a test such as `assert summarise([2, 4, 6]) == (3, 12, 4)` checks for a count of 3, total of 12 and mean of 4. A true comparison lets execution continue silently; a false comparison raises `AssertionError`.
+These introduce functions, lists, automated checks and exception handling. If those are new to you, keep practising the core exercises first.
 
-This is an introduction to **unit testing**: checking a small part of a program, such as one function, with known inputs and expected outputs. Include different cases, particularly an empty list, rather than testing only one ordinary example. The worksheet explains how to write and interpret these assertions. Use normal validation for user input: assertions can be disabled when Python runs with optimisation.
+### Extension 1. Handle mistyped readings without losing the total
 
-**Further reading:** [W3Schools: functions](https://www.w3schools.com/python/python_functions.asp), [W3Schools: assert examples](https://www.w3schools.com/python/ref_keyword_assert.asp), [Python unittest: basic example](https://docs.python.org/3/library/unittest.html#basic-example).
+Extend Exercise 6 so the user can enter `q` to finish. Zero is now an ordinary reading and must be counted. Accept positive, negative and zero numeric readings; ignore surrounding spaces and accept uppercase `Q`.
 
-## Sources and further reading
+- Check for the quit command before converting the input.
+- Use `try/except ValueError` to catch text such as `hello` that cannot be converted with `float()`.
+- Print a helpful message for an invalid entry and ask again.
+- Do not add rejected entries to the total or count them.
+- At the end, print count and total. Print the mean only if at least one reading was accepted; otherwise print `No readings entered`.
 
-- [Python tutorial: for statements and range](https://docs.python.org/3/tutorial/controlflow.html)
-- [Python reference: while statements](https://docs.python.org/3/reference/compound_stmts.html#the-while-statement)
-- [Python documentation: input](https://docs.python.org/3/library/functions.html#input)
-- [W3Schools: for loops](https://www.w3schools.com/python/python_for_loops.asp)
-- [W3Schools: while loops](https://www.w3schools.com/python/python_while_loops.asp)
-- [W3Schools: operators, including assignment operators](https://www.w3schools.com/python/python_operators.asp)
+| Inputs | Expected result |
+| --- | --- |
+| 2, hello, 4, q | Reject hello; count 2, total 6, mean 3 |
+| 0, q | Count 1, total 0, mean 0 |
+| q | Count 0, total 0, No readings entered |
+| -2, 2, Q | Count 2, total 0, mean 0 |
+
+**Hints:** keep the running values outside the loop. Place updates only after successful conversion, and make sure every path through the loop reaches another input or exits. See [W3Schools: try/except](https://www.w3schools.com/python/python_try_except.asp).
+
+
+### Extension 2. Write and test a readings summary - requires knowledge of functions
+
+Write `summarise(readings)`, accepting a list of numbers. Use a loop to calculate the count and total, then return `(count, total, mean)`.
+
+- Do not use `sum()` or `len()` to do the counting and accumulation for you.
+- For an empty list, return `(0, 0, None)` because there is no mean.
+- Keep input and printing outside the function.
+- Write assertions for `[2, 4, 6]`, `[0]`, `[-2, 2]` and `[]`.
+
+Expected results are `(3, 12, 4)`, `(1, 0, 0)`, `(2, 0, 0)` and `(0, 0, None)` respectively.
+
+**Hints:** initialise before the loop, update for every reading, and calculate the mean afterwards. Check for zero count before dividing. An assertion can look like `assert summarise([2, 4, 6]) == (3, 12, 4)`. See [W3Schools: functions](https://www.w3schools.com/python/python_functions.asp).
+
+#### What is an assertion?
+
+An assertion is a check you write in code: “I expect this condition to be true.” Instead of printing a result and checking it yourself, you let Python compare the actual result with the expected one.
+
+Once you have written `summarise`, put this test below the function definition, outside its indented body:
+
+```python
+result = summarise([2, 4, 6])
+assert result == (3, 12, 4), "Check the count, total and mean"
+print("Test passed")
+```
+
+Here, we expect three readings, a total of 12 and a mean of 4. The `==` comparison produces a Boolean, just like the conditions we used last week.
+
+- If the comparison is true, the assertion produces no output and Python carries on to `print("Test passed")`.
+- If it is false, Python raises an `AssertionError` with the message after the comma. Unless that error is handled, the program stops there. Use the failure to investigate your calculation.
+
+This is a first step towards **unit testing**: checking a small part of a program, such as one function, independently. Each test supplies known input and checks the expected output. Your four test cases check different situations, including an empty list. Passing them shows that those cases work; it does not prove the function is correct for every possible input.
+
+Have a look at [W3Schools: Python assert, with examples you can try](https://www.w3schools.com/python/ref_keyword_assert.asp). For a later look at organising several tests and reporting their results, see [Python's unittest tutorial: basic example](https://docs.python.org/3/library/unittest.html#basic-example). You do not need to use the `unittest` framework for this exercise.
+
+Use assertions here to check your code. Keep the user-input checks from Extension 1 as normal conditions and exception handling: assertions can be disabled when Python runs with optimisation.
+
